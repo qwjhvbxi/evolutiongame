@@ -8,7 +8,7 @@ G.m=30;   % preys
 G.s=[1000,1000];   % size of canvas
 G.h=100; % max observation radius
 G.angres=8;
-G.EatRad=5;
+G.eatradius=5;
 G.selection=10;
 G.speedn=1;
 G.speedm=0;%0.05;
@@ -27,7 +27,7 @@ G.S=[G.angres*2,8,2];
 % G.recreate=true;
 % G.S=[G.angres*2,8,2];
 
-V=Game(G,V);
+[V,Evo]=Game(G,V);
 
 
 %%

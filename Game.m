@@ -1,21 +1,22 @@
 %% [V]=Game(G[,V])
 % Jungle game
 
-function [V]=Game(G,V)
+function [V,Evo]=Game(G,V)
 
 if nargin<2 || isempty(V)
     [V,S]=InitializePop(G);
     G.S=S;
 end
 
-[V]=Evolve(G,V);
+[V,Evo]=Evolve(G,V);
 
 end
 
 
-function [V]=Evolve(G,V)
+function [V,Evo]=Evolve(G,V)
 
 K=100;%G.generations; % generations
+Evo=zeros(K,2);
 
 figure(1)
 clf
@@ -28,11 +29,13 @@ for i=1:K
     V1=Selection(G,F(1:G.n),V(:,1:G.n));
     V2=Selection(G,F(G.n+1:G.n+G.m),V(:,G.n+1:G.n+G.m));
     V=[V1,V2];
+    
+    Evo(i,:)=[mean(F(1:G.n),'omitnan'),max(F(1:G.n))];
 
     if 1
         figure(1)
-        scatter(i,mean(F(1:G.n),'omitnan'),'o');
-        scatter(i,max(F(1:G.n)),'x');
+        scatter(i,Evo(i,1),'.');
+        scatter(i,Evo(i,2),'^');
         drawnow
     end
 end
@@ -112,7 +115,7 @@ d=@(v1,v2) sqrt((v1(:,1)-v2(:,1)').^2+(v1(:,2)-v2(:,2)').^2);
 D=d(N(1:G.n,:),N(G.n+1:G.n+G.m,:));
 
 
-Ate=(D<G.EatRad);
+Ate=(D<G.eatradius);
 
 % [M,I]=min(D)
 
@@ -195,7 +198,7 @@ if 1
     
     x=1;
     if exist('viscircles','builtin')
-        viscircles([N(x,1),N(x,2)],G.EatRad);
+        viscircles([N(x,1),N(x,2)],G.eatradius);
         viscircles([N(x,1),N(x,2)],G.h);
     end
 
