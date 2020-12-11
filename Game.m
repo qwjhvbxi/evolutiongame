@@ -15,7 +15,7 @@ end
 
 function [V,Evo]=Evolve(G,V)
 
-K=100;%G.generations; % generations
+K=1000;%G.generations; % generations
 Evo=zeros(K,2);
 
 figure(1)
@@ -37,6 +37,12 @@ for i=1:K
         scatter(i,Evo(i,1),'.');
         scatter(i,Evo(i,2),'^');
         drawnow
+    end
+    
+    if plotta 
+        
+        save('temp1.mat','G','V','Evo');
+        
     end
 end
 
